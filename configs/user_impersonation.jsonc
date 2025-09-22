@@ -1,0 +1,27 @@
+{
+    // Enable or disable user impersonation feature globally.
+    "enabled": false,
+
+    // Duration for which an impersonation session remains valid (in seconds).
+    "impersonation_duration_secs": 3600, // 1 hour
+
+    // Whether to restrict impersonation sessions to the IP address of the original user.
+    // We strongly recommend keeping this enabled for security reasons.
+    "disallow_ip_address_changes": true,
+
+    // This section defines who is allowed to impersonate other users.
+    // Note that the most restrictive rule applies if multiple are specified. So if you have
+    // both specific emails and domains, only those specific emails will be allowed.
+    // Default is that no one can impersonate anyone.
+    "who_can_impersonate": {
+        // List of specific employee emails allowed to impersonate users.
+        // "allowed_employee_emails": ["joe@example.com"],
+
+        // List of allowed email domains for employees who can impersonate users.
+        // "allowed_employee_domains": ["example.com"],
+
+        // If you set this to true, you'll want to make sure you are
+        // protecting calls to createImpersonationSession yourself
+        // "allow_all_because_i_will_gate_access_myself": false
+    }
+}

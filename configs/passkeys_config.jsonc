@@ -1,0 +1,8 @@
+{
+    // Hostname for the WebAuthn relying party (without protocol)
+    // Examples: "example.com", "localhost:3000", "app.example.com"
+    "hostname": "example.com",
+
+    // Maximum number of passkeys allowed per user (default: 5, max: 10)
+    "max_passkeys_per_user": 5,
+}

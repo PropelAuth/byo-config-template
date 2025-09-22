@@ -1,0 +1,77 @@
+{
+    // This defines the standardized user schema with the output fields your application expects.
+    // Each field specifies where to find the data in incoming SCIM requests from customers.
+    // If a customer's SCIM implementation doesn't match this default schema, you can create
+    // per-connection custom mappings to transform their data into your expected format.
+    "userSchema": [
+        {
+            // Required. The key for the property in the mapped data.
+            "outputField": "family_name",
+            // Required. The path in the raw SCIM data where this property is expected to be found.
+            "inputPath": "name.familyName",
+            // Optional. If the inputPath is not found, you can specify additional paths to try.
+            "fallbackInputPaths": [],
+            // Required. The type of the property.
+            "propertyType": {
+                "dataType": "String",
+            },
+            // Optional. A human-readable name for the property -- for example to show to users.
+            "displayName": "Family Name",
+            // Optional. A description of the property.
+            "description": "The user's family name.",
+            // Optional (default false). If true, BYO will surface a warning in the dashboard if this property could not be found in the incoming SCIM data.
+            "warnIfMissing": true,
+            // Optional. A value to return if this property is not found in the incoming SCIM data.
+            // "defaultValue": "Unknown",
+        },
+        {
+            "outputField": "given_name",
+            "inputPath": "name.givenName",
+            "displayName": "Given Name",
+            "description": null,
+            "propertyType": {
+                "dataType": "String",
+            },
+        },
+        // {
+        //     "outputField": "phoneNumbers",
+        //     "inputPath": "phoneNumbers[type eq \"work\"].value",
+        //     "displayName": "Work Phone Numbers",
+        //     "description": "A list of all your work phone numbers.",
+        //     "propertyType": {
+        //         "dataType": "List",
+        //         "itemType": {
+        //             "dataType": "String",
+        //         },
+        //     },
+        // },
+        // {
+        //     "outputField": "department",
+        //     "inputPath": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:department",
+        //     "displayName": "Department",
+        //     "description": "Your department.",
+        //     "propertyType": {
+        //         "dataType": "Enum",
+        //         "options": [
+        //             "Engineering",
+        //             "Sales",
+        //             "Marketing",
+        //             "Human Resources",
+        //             "Finance",
+        //             "Customer Support",
+        //             "Legal",
+        //             "Operations",
+        //         ],
+        //     },
+        // },
+        // {
+        //     "outputField": "manager",
+        //     "inputPath": "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager",
+        //     "displayName": "My Manager",
+        //     "description": "Your manager's name.",
+        //     "propertyType": {
+        //         "dataType": "String",
+        //     },
+        // },
+    ],
+}

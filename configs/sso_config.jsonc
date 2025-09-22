@@ -1,0 +1,15 @@
+{
+    // When initiating an SSO login, you may specify a `post_login_redirect_url`. Most commonly, this is used to
+    // indicate where the user should be redirected after a successful login, and we return this URL back to you,
+    // after the user has successfully authenticated.
+    //
+    // However, this can be a security risk if you allow arbitrary URLs to be specified here, as an attacker could
+    // trick a user into logging in, and then redirect them to a malicious site.
+    //
+    // This configuration option allows you to specify a list of allowed origins (scheme + host + optional port)
+    // that can be used in the `post_login_redirect_url`. If the URL specified in the login request does not
+    // match one of these origins, the login request will be rejected.
+    "post_login_redirect_origin_allowlist": [
+        // "https://example.com",
+    ],
+}

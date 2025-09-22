@@ -1,0 +1,40 @@
+{
+    "session_lifetime_secs": 604800, // 7 days
+
+    // Accurately determining a client's IP address can be challenging when your server is behind
+    // a proxy / load balancer. This config helps us pick the right IP address for requests to the dashboard.
+    "where_to_find_ip": {
+        // If you are NOT using a proxy or load balancer, we will use the direct connection IP and you
+        // can ignore the rest of this config.
+        "use_ip_directly": true,
+
+        // If you ARE behind a proxy or load balancer, set use_ip_directly to false and configure
+        // the header your proxy uses to forward the original client IP.
+        // "header_with_ip": "X-Forwarded-For"
+
+        // Forwarded headers may contain multiple IPs, e.g. "X-Forwarded-For: client, proxy1, proxy2".
+        // Note that we always traverse the list from right to left, as the leftmost IPs are the easiest to spoof.
+        // Choose a strategy to pick the right IP from the list:
+        // - "skip_trusted_proxies"
+        // - "skip_count"
+        // "strategy_to_select_ip_from_header": "skip_trusted_proxies",
+
+        // If using "skip_trusted_proxies", list the trusted proxies (IP or CIDR) in trustedProxies.
+        // This will choose the first IP, starting from the right, that is NOT in the trustedProxies list.
+        // "trusted_proxies": ["127.0.0.1/8", "::1/128", "10.0.0.0/8"]
+
+        // If using "skip_count", set the number of rightmost hops to skip in trustedCount.
+        // E.g. if your header is "X-Forwarded-For: client, proxy" and you set trustedCount to 1,
+        // we will skip the rightmost IP (the proxy) and use the next one (the client).
+        // "trusted_count": 1
+    },
+
+    // The intervals for various background jobs. You can tune these as needed to manage the load on
+    // your database and the responsiveness of your application.
+    "job_run_intervals": {
+        // Interval for the session garbage collection job in seconds.
+        // Default is 300 seconds (5 minutes). If this is set to a larger value, you may see
+        // a lag in when expired sessions appear as such in your dashboard.
+        // "session_garbage_collection": 300
+    },
+}

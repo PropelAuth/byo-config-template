@@ -1,0 +1,64 @@
+{
+    "defaults": {
+        "absolute_lifetime_secs": 1209600, // 14 days
+        // No inactivity_timeout_secs specified - defaults to no inactivity timeout
+
+        // Maximum number of concurrent sessions allowed per user (default: 8, max: 20)
+        // "max_concurrent_sessions_per_user": 8,
+
+        // Action to take when session limit is exceeded:
+        // - "drop_oldest": Remove the oldest session(s) to make room (default)
+        // - "reject_new": Reject the new session creation request
+        // - "drop_newest": Remove the most recently created session(s) to make room
+        // - "drop_least_recently_active": Remove the least recently active session(s)
+        // "on_session_limit_exceeded": "drop_oldest",
+    },
+
+    // A tag is a label that can be applied to sessions. A single session can have multiple tags.
+    // All tags are specified like {tag_name}:{tag_value}, for example:
+    //
+    //     org:9130a2c2-d84e-42a3-b3e6-c3779dfba6d5
+    //     pricing_plan:free
+    //     type:mobile
+    //
+    //
+    // Tags serve three primary purposes:
+    // - Sessions can be configured to have different settings based on their
+    //       tags (e.g. pricing_plan:free has a shorter lifetime)
+    // - You can perform batch actions on sessions based on their tags (e.g.
+    //       invalidate all sessions for a specific organization)
+    // - You can use tags to filter sessions in the API (e.g. get all mobile
+    //       sessions for a specific organization)
+    "tags": [
+        {
+            "tag": "type:high_security",
+
+            // Sessions with this tag will have a shorter lifetime, and are pinned to a specific IP address.
+            "absolute_lifetime_secs": 43200, // 12 hours
+            "disallow_ip_address_changes": true,
+
+            // You can optionally specify a maximum number of concurrent sessions JUST for this tag.
+            "max_concurrent_sessions_per_user_per_tag": 1,
+            "on_session_limit_exceeded": "reject_new",
+        },
+        {
+            "tag": "org:9130a2c2-d84e-42a3-b3e6-c3779dfba6d5",
+
+            // This customer requested that we limit sessions to just their office's IP address, and only allow one session per user.
+            "ip_allowlist": ["10.0.0.1/32"],
+            "max_concurrent_sessions_per_user": 1,
+        },
+    ],
+
+    // Since a session can have multiple tags, you can specify a priority order for tags.
+    // A sessions settings are determined by merging the settings of all matching tags,
+    //   with the first matching tag in the priority order taking precedence.
+    // In this example, settings from any "org:*" tags will take precedence over any "type:*" tags,
+    //   which take precedence over the default settings.
+    "tag_priority": ["org", "type"],
+
+    // On-create-only tags cannot be added or removed after the session is created.
+    // They are useful for tags that should not change over the lifetime of the session.
+    // You can also specify ["*"] to make all tags immutable after creation.
+    "on_create_only_tags": ["type"],
+}

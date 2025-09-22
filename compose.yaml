@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+    db:
+        container_name: propelauth-byo-db
+        image: "postgres:16-bookworm"
+        environment:
+            POSTGRES_USER: propelauth_user
+            POSTGRES_PASSWORD: supersecretpassword
+            POSTGRES_DB: propelauth
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - my_network
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "propelauth_user", "-d", "propelauth"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    propelauth:
+        container_name: propelauth-byo
+        image: propelauth/propelauth-byo:latest
+        volumes:
+            - ./configs:/app/configs
+        depends_on:
+            db:
+                condition: service_healthy
+        ports:
+            - 2884:2884
+        environment:
+            LICENSE_KEY: ${BYO_LICENSE_KEY}
+            INITIAL_OWNER_USERNAME: ${INITIAL_OWNER_USERNAME}
+            DATABASE_URL: postgresql://propelauth_user:supersecretpassword@db:5432/propelauth
+        networks:
+            - my_network
+        restart: unless-stopped
+
+networks:
+    my_network:
+        driver: bridge
+
+volumes:
+    postgres_data:
