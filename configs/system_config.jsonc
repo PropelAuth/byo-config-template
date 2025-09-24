@@ -1,5 +1,5 @@
 {
-    "session_lifetime_secs": 604800, // 7 days
+    "dashboard_session_lifetime_secs": 604800, // 7 days
 
     // Accurately determining a client's IP address can be challenging when your server is behind
     // a proxy / load balancer. This config helps us pick the right IP address for requests to the dashboard.
