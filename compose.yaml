@@ -22,6 +22,7 @@ services:
     propelauth:
         container_name: propelauth-byo
         image: propelauth/propelauth-byo:latest
+        platform: linux/amd64
         volumes:
             - ./configs:/app/configs
         depends_on:
