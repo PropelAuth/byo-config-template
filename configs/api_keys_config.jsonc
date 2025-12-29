@@ -1,0 +1,24 @@
+{
+    // Each API key has a "profile" that defines:
+    // 1. The prefix for the API key (e.g. "pk" for "pk_12345...")
+    // 2. The scopes/permissions that the API key is allowed to have.
+
+    // In the example below, we define two profiles: "srv" and "cli"
+    // Where "srv" is for server-side API keys with read and write access,
+    // and "cli" is for command-line interface keys with only read access.
+
+    // The profile that will be used if none is specified when creating an API key.
+    // This is required and must be present in the "profiles" below.
+    "default_profile": "srv",
+    "profiles": [{
+        "prefix": "srv",
+        // A description of the profile. Optional.
+        "description": "Keys for accessing the API from a server.",
+        // Scopes defined by you for your permissions system.
+        "available_scopes": ["read::all", "write::all"]
+    }, {
+        "prefix": "cli",
+        "description": "Keys for accessing the API from a command-line interface.",
+        "available_scopes": ["read::all"]
+    }]
+}
